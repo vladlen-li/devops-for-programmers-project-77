@@ -1,4 +1,11 @@
-.terraform
 *.auto.tfvars
 *.backup
+*.env
+
+.terraform
+.idea
+.vault_pass.txt
+.tmp
+
 terraform.tfstate
+get_vault_key
