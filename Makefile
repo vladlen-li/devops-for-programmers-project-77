@@ -13,16 +13,18 @@ ansible-destroy:
 ansible-edit-secrets:
 	ansible-vault edit ansible/group_vars/webservers/vault.yml --vault-password-file ansible/get_vault_key
 
-plan-infra:
+update-vms-dns-records:
+	./update-dns-records.sh
+plan-terraform:
 	terraform -chdir=./terraform plan
 
-build-infra:
+build-terraform:
 	terraform -chdir=./terraform apply -var-file=secret.tfvars
 
-destroy-infra:
+destroy-terraform:
 	terraform -chdir=./terraform destroy
 
-reinit-infra:
+reinit-terraform:
 	terraform -chdir=./terraform init -upgrade
 
 deploy: ansible-dependencies ansible-deploy
@@ -31,3 +33,4 @@ destroy: ansible-destroy
 
 edit-secrets: ansible-edit-secrets
 
+build-infra: build-terraform update-vms-dns-records
