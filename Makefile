@@ -13,11 +13,17 @@ ansible-destroy:
 ansible-edit-secrets:
 	ansible-vault edit ansible/group_vars/webservers/vault.yml --vault-password-file ansible/get_vault_key
 
+plan-infra:
+	terraform -chdir=./terraform plan
+
 build-infra:
-	terraform -chdir=./terraform apply
+	terraform -chdir=./terraform apply -var-file=terraform/secret.vars
 
 destroy-infra:
 	terraform -chdir=./terraform destroy
+
+reinit-infra:
+	terraform -chdir=./terraform init -upgrade
 
 deploy: ansible-dependencies ansible-deploy
 
