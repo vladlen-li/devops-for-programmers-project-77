@@ -17,7 +17,7 @@ plan-infra:
 	terraform -chdir=./terraform plan
 
 build-infra:
-	terraform -chdir=./terraform apply -var-file=terraform/secret.vars
+	terraform -chdir=./terraform apply -var-file=secret.tfvars
 
 destroy-infra:
 	terraform -chdir=./terraform destroy
