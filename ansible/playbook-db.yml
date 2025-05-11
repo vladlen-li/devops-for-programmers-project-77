@@ -1,0 +1,41 @@
+- name: Deploy MySQL Database in Docker Container using Environment Variables
+  hosts: db
+  become: yes
+  vars_files:
+    - group_vars/all/vars.yml
+    - group_vars/webservers/vault.yml
+  pre_tasks:
+    - name: Apt update
+      apt:
+        update_cache: yes
+  tasks:
+    - name: Ensure Docker is installed
+      apt:
+        name: docker.io
+        state: present
+      become: yes
+
+    - name: Check if MySQL container is running
+      docker_container_info:
+        name: mysql_container
+      register: mysql_container_info
+      ignore_errors: yes
+
+    - name: Create environment file for MySQL container
+      template:
+        src: templates/db.env.j2
+        dest: "/tmp/db.env"
+      when: mysql_container_info.containers is not defined or mysql_container_info.containers | length == 0
+
+    - name: Run MySQL container with environment variables
+      docker_container:
+        name: mysql_container
+        image: mysql:latest
+        state: started
+        restart_policy: always
+        env_file: "/tmp/db.env"
+        volumes:
+          - "/var/lib/mysql:/var/lib/mysql"
+        published_ports:
+          - "3306:3306"
+      when: mysql_container_info.containers is not defined or mysql_container_info.containers | length == 0

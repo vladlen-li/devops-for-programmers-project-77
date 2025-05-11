@@ -1,0 +1,12 @@
+redmine_port: "{{ lookup('env', 'REDMINE_EXTERNAL_PORT') }}"
+redmine_image: redmine
+redmine_db_adapter: mysql2
+
+database_host: "{{ lookup('env', 'DATABASE_HOST') }}"
+database_port: "{{ lookup('env', 'DATABASE_PORT') }}"
+database_name: "{{ lookup('env', 'DATABASE_NAME') }}"
+
+datadog_site: "datadoghq.eu"
+
+pip_install_packages:
+  - name: requests
