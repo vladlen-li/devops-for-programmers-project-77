@@ -1,6 +1,7 @@
 *.auto.tfvars
 *.backup
 *.env
+.terraform.lock.hcl
 secret.*
 
 .terraform
