@@ -1,3 +1,3 @@
 data "local_file" "ssh_key" {
-  filename = "/home/koala/.ssh/id_rsa.pub"
+  filename = var.ssh_pub_key_path
 }
