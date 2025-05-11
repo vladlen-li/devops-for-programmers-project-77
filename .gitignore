@@ -1,6 +1,7 @@
 *.auto.tfvars
 *.backup
 *.env
+secret.*
 
 .terraform
 .idea
