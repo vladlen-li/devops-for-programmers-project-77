@@ -1,6 +1,6 @@
 provider "google" {
- project = local.project_id
- region = local.region
+  project = local.project_id
+  region = local.region
 }
 
 terraform {
@@ -11,7 +11,7 @@ terraform {
     }
     datadog = {
       source  = "datadog/datadog"
-      version = "~> 3.35" 
+      version = "~> 3.35"
     }
   }
 }
