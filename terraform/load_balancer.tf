@@ -13,7 +13,7 @@ resource "google_compute_region_backend_service" "study_backend" {
   region                          = local.region
   protocol                        = "HTTP"
   load_balancing_scheme           = "EXTERNAL_MANAGED"
-  health_checks = [google_compute_region_health_check.http.id]
+  health_checks                   = [google_compute_region_health_check.http.id]
   timeout_sec                     = 30
   connection_draining_timeout_sec = 300
 
@@ -30,9 +30,9 @@ resource "google_compute_region_url_map" "urlmap" {
 }
 
 resource "google_compute_region_target_https_proxy" "https_proxy" {
-  name    = "study-https-proxy"
-  region  = local.region
-  url_map = google_compute_region_url_map.urlmap.id
+  name             = "study-https-proxy"
+  region           = local.region
+  url_map          = google_compute_region_url_map.urlmap.id
   ssl_certificates = [google_compute_region_ssl_certificate.self_managed.id]
 }
 
@@ -45,5 +45,5 @@ resource "google_compute_forwarding_rule" "https" {
   ip_protocol           = "TCP"
   network_tier          = "PREMIUM"
   network               = google_compute_network.vpc.id
-  depends_on = [google_compute_subnetwork.proxy_only]
+  depends_on            = [google_compute_subnetwork.proxy_only]
 }

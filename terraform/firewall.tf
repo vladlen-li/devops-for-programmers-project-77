@@ -4,7 +4,7 @@ resource "google_compute_firewall" "allow_ssh" {
 
   allow {
     protocol = "tcp"
-    ports = ["22"]
+    ports    = ["22"]
   }
   source_ranges = ["0.0.0.0/0"]
 }
@@ -15,7 +15,7 @@ resource "google_compute_firewall" "allow_http" {
 
   allow {
     protocol = "tcp"
-    ports = ["80"]
+    ports    = ["80"]
   }
   source_ranges = ["0.0.0.0/0"]
 }
@@ -26,7 +26,7 @@ resource "google_compute_firewall" "allow_webserver_port" {
 
   allow {
     protocol = "tcp"
-    ports = ["3000"]
+    ports    = ["3000"]
   }
   source_ranges = ["0.0.0.0/0"]
 }
