@@ -54,13 +54,13 @@ resource "google_compute_instance" "instance-20250511-065329" {
   }
 
   tags = ["http-server", "https-server", "lb-health-check"]
-  zone = local.zone
+  zone = var.zone
 }
 
 module "ops_agent_policy" {
   source        = "github.com/terraform-google-modules/terraform-google-cloud-operations/modules/ops-agent-policy"
-  project       = local.project_id
-  zone          = local.zone
+  project       = var.project_id
+  zone          = var.zone
   assignment_id = "goog-ops-agent-v2-x86-template-1-4-0-us-central1-c"
   agents_rule = {
     package_state = "installed"
@@ -134,12 +134,12 @@ resource "google_compute_instance" "instance-20250511-075319" {
   }
 
   tags = ["http-server", "https-server", "lb-health-check"]
-  zone = local.zone
+  zone = var.zone
 }
 
 resource "google_compute_instance_group" "study_application_group" {
   name    = "study-application-group"
-  zone    = local.zone
+  zone    = var.zone
   network = google_compute_network.vpc.self_link
   instances = [
     google_compute_instance.instance-20250511-065329.self_link,

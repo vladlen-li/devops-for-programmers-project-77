@@ -1,31 +1,42 @@
 include .env
 export $(shell sed 's/=.*//' .env)
 
+.PHONY: ansible-dependencies ansible-deploy ansible-destroy ansible-edit-secrets ansible-generate-terraform-vars \
+        terraform-init terraform-plan terraform-apply terraform-destroy terraform-reinit \
+        deploy destroy edit-secrets build-infra update-dns
+
 ansible-dependencies:
-	ansible-galaxy install -r ansible/requirements.yml
+	make -C ansible dependencies
 
 ansible-deploy:
-	ansible-playbook -i ansible/inventory.ini ansible/playbook.yml --vault-password-file ansible/get_vault_key  --skip-tags destroy
+	make -C ansible play-deploy
 
 ansible-destroy:
-	ansible-playbook -i ansible/inventory.ini ansible/playbook.yml --vault-password-file ansible/get_vault_key --tags destroy
+	make -C ansible play-destroy
 
 ansible-edit-secrets:
-	ansible-vault edit ansible/group_vars/webservers/vault.yml --vault-password-file ansible/get_vault_key
+	make -C ansible edit-secrets
 
-update-vms-dns-records:
+ansible-generate-terraform-vars:
+	make -C ansible generate-terraform-vars
+
+terraform-init:
+	make -C terraform init
+
+terraform-plan:
+	make -C terraform plan
+
+terraform-apply:
+	make -C terraform apply
+
+terraform-destroy:
+	make -C terraform destroy
+
+terraform-reinit:
+	make -C terraform reinit
+
+update-dns:
 	./update-dns-records.sh
-plan-terraform:
-	terraform -chdir=./terraform plan
-
-build-terraform:
-	terraform -chdir=./terraform apply -var-file=secret.tfvars
-
-destroy-terraform:
-	terraform -chdir=./terraform destroy
-
-reinit-terraform:
-	terraform -chdir=./terraform init -upgrade
 
 deploy: ansible-dependencies ansible-deploy
 
@@ -33,4 +44,4 @@ destroy: ansible-destroy
 
 edit-secrets: ansible-edit-secrets
 
-build-infra: build-terraform update-vms-dns-records
+build-infra: ansible-generate-terraform-vars terraform-apply update-dns

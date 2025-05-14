@@ -1,0 +1,30 @@
+- name: Generate Terraform variables
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Check required environment variables
+      ansible.builtin.fail:
+        msg: "Required environment variable {{ item }} is not set"
+      when: lookup('env', item) == ''
+      loop:
+        - GCP_PROJECT_ID
+        - GCP_REGION
+        - GCP_ZONE
+        - DD_API_KEY
+        - DD_APP_KEY
+        - DOMAIN_PRIVATE_KEY_PATH
+        - DOMAIN_CERT_PATH
+        - SSH_PUB_KEY_PATH
+
+    - name: Check if terraform.auto.tfvars exists
+      ansible.builtin.stat:
+        path: "{{ playbook_dir }}/../terraform/terraform.auto.tfvars"
+      register: tfvars_file
+
+    - name: Generate Terraform variables file
+      ansible.builtin.template:
+        src: templates/terraform.tfvars.j2
+        dest: "{{ playbook_dir }}/../terraform/terraform.auto.tfvars"
+        mode: '640'
+      when: not tfvars_file.stat.exists 

@@ -39,6 +39,17 @@ DATABASE_NAME=name
 DATABASE_HOST=127.0.0.1
 DATABASE_PORT=1234
 REDMINE_EXTERNAL_PORT=80
+
+GCP_PROJECT_ID=your-project-id
+GCP_REGION=us-central1
+GCP_ZONE=us-central1-c
+
+DD_API_KEY=your-datadog-api-key
+DD_APP_KEY=your-datadog-app-key
+
+DOMAIN_PRIVATE_KEY_PATH=/path/to/private.key
+DOMAIN_CERT_PATH=/path/to/certificate.crt
+SSH_PUB_KEY_PATH=/path/to/id_rsa.pub
 ```
 
 2. Подготовте файл с ключом шифрования для ansible-vault
@@ -76,5 +87,6 @@ make deploy
 | `make deploy`                 | Установить Datadog Agent, настроить VM  |
 | `make destroy`                | Удалить Ansible-конфигурации            |
 | `make destroy-terraform`      | Удалить инфраструктуру                  |
-| `make update-vms-dns-records` | Обновить dnsmasq по output’ам Terraform |
+| `make update-vms-dns-records` | Обновить dnsmasq по output'ам Terraform |
 | `make edit-secrets`           | Редактировать зашифрованные переменные  |
+| `make ansible-generate-terraform-vars` | Сгенерировать переменные для Terraform |

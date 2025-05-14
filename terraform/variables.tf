@@ -24,3 +24,27 @@ variable "ssh_pub_key_path" {
   description = "Certificate path"
   type        = string
 }
+
+variable "project_id" {
+  description = "The GCP project ID"
+  type        = string
+}
+
+variable "region" {
+  description = "The GCP region"
+  type        = string
+}
+
+variable "zone" {
+  description = "The GCP zone"
+  type        = string
+}
+
+variable "apis" {
+  description = "List of GCP APIs to enable"
+  type        = list(string)
+  default     = [
+    "compute.googleapis.com",
+    "logging.googleapis.com"
+  ]
+}
