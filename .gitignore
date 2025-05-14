@@ -11,3 +11,7 @@ secret.*
 
 terraform.tfstate
 get_vault_key
+
+*.swp
+
+*.retry
