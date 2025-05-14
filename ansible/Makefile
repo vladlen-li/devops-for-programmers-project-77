@@ -13,4 +13,4 @@ edit-secrets:
 	ansible-vault edit group_vars/webservers/vault.yml --vault-password-file get_vault_key
 
 generate-terraform-vars:
-	ansible-playbook playbook-terraform-vars.yml 
+	ansible-playbook playbook-terraform-vars.yml --vault-password-file get_vault_key

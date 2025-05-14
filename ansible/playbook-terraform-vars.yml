@@ -2,6 +2,8 @@
   hosts: localhost
   connection: local
   gather_facts: false
+  vars_files:
+    - group_vars/webservers/vault.yml
   tasks:
     - name: Check required environment variables
       ansible.builtin.fail:
@@ -11,8 +13,6 @@
         - GCP_PROJECT_ID
         - GCP_REGION
         - GCP_ZONE
-        - DD_API_KEY
-        - DD_APP_KEY
         - DOMAIN_PRIVATE_KEY_PATH
         - DOMAIN_CERT_PATH
         - SSH_PUB_KEY_PATH
@@ -27,4 +27,4 @@
         src: templates/terraform.tfvars.j2
         dest: "{{ playbook_dir }}/../terraform/terraform.auto.tfvars"
         mode: '640'
-      when: not tfvars_file.stat.exists 
+      when: not tfvars_file.stat.exists
