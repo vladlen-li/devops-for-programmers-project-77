@@ -44,9 +44,6 @@ GCP_PROJECT_ID=your-project-id
 GCP_REGION=us-central1
 GCP_ZONE=us-central1-c
 
-DD_API_KEY=your-datadog-api-key
-DD_APP_KEY=your-datadog-app-key
-
 DOMAIN_PRIVATE_KEY_PATH=/path/to/private.key
 DOMAIN_CERT_PATH=/path/to/certificate.crt
 SSH_PUB_KEY_PATH=/path/to/id_rsa.pub
@@ -60,18 +57,31 @@ SSH_PUB_KEY_PATH=/path/to/id_rsa.pub
 echo "here_is_your_key"
 ```
 
-3. ✅ Установи зависимости
+3. Настройте секреты в vault
+Создайте или отредактируйте файл с секретами:
+
+```bash
+make edit-secrets
+```
+
+Добавьте в него следующие переменные:
+```yaml
+datadog_api_key: your-datadog-api-key
+datadog_app_key: your-datadog-app-key
+```
+
+4. ✅ Установи зависимости
 
 ```bash
 make ansible-dependencies
 ```
 
-4. 🏗️ Создай инфраструктуру (GCP, Datadog, VM, Load Balancer)
+5. 🏗️ Создай инфраструктуру (GCP, Datadog, VM, Load Balancer)
 
 ```bash
 make build-infra
 ```
-5. 🧰 Настрой удалённые машины и задеплой приложение
+6. 🧰 Настрой удалённые машины и задеплой приложение
 
 ```bash
 make deploy
